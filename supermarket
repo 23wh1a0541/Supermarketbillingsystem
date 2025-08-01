@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-
 class Product {
     private int id;
     private String name;
