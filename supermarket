@@ -193,3 +193,244 @@ public class SupermarketBilling {
         }
     }
 }
+//2nd ,3rd
+git --version
+git init
+git config --global user.name "23WH1A0512"
+git config --global user.email "23wh1a0512@bvrithyderabad.edu.in"
+git status
+git add registration.html
+git commit -m "add registration"
+git remote add origin <URL>
+git branch -M main
+git push -u origin main
+git clone <URL>
+git pull origin main
+git log
+git checkout master
+git checkout main
+git merge
+
+6th
+docker --version
+docker pull nginx:latest
+docker images
+docker run -d -p 8080:80 --name mynginx nginx:latest
+docker stop mynginx
+docker rm mynginx
+docker inspect mynginx
+docker ps -a
+docker export -o memcached.tar memcached
+7th
+create Myapp folder 
+create Docker file write below in docker file and save
+FROM nginx:latest
+
+COPY index.html /usr/share/nginx/html/index.html
+
+create index file write and save below code 
+
+
+<html>
+<header><title>this is title</title></header>
+<body> hello</body>
+</html>
+
+docker build -t my-simple-app
+
+docker run -d -p 8081:80 --name simple-container my-simple-app  
+
+http://localhost:8081:80
+
+9th exp
+include 7th create simple-nginx-deployment and simple-nginx-service.yaml files
+
+1stfile
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-nginx-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-nginx-app
+  template:
+    metadata:
+      labels:
+        app: simple-nginx-app
+    spec:
+      containers:
+        - name: simple-nginx-app
+          image: sudheepthi/my-simple-app:latest
+          ports:
+            - containerPort: 80
+simple-nginx-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-nginx-service
+spec:
+  selector:
+    app: simple-nginx-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
+
+run below cmds
+
+kubectl apply -f simple-nginx-deployment.yaml
+
+kubectl apply -f simple-nginx-service.yaml
+
+kubectl get pods
+
+kubectl get svc
+
+kubectl port -forward svc/simple-nginx-service 8081:80
+10th
+serach spring intializer 
+add dependency springbring devtools,springboot web
+generate
+exrtact demo file
+open in vs code
+src-main-java-demo create Controller folder,HelloController.java file write  below code and save
+package com.example.demo.Controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    @GetMapping("/api")
+    public String hello() {
+        return "Hello from Spring Boot Demo!";
+    }
+}
+run these cmds
+Cd demo
+mvn clean install
+mvn spring-boot:run
+11th
+create karate demo folder,create server.js,pom.xml,package.json,create test folder in that create karate folder in that api-test.feature file 
+
+server.js
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+let students = [
+  { id: 1, name: 'Lara', course: 'Computer Science' },
+  { id: 2, name: 'John', course: 'Information Technology' }
+];
+
+app.get('/students', (req, res) => {
+  res.status(200).json(students);
+});
+
+app.get('/students/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const student = students.find(s => s.id === id);
+  if (student) {
+    res.status(200).json(student);
+  } else {
+    res.status(404).json({ message: 'Student not found' });
+  }
+});
+
+app.post('/students', (req, res) => {
+  const newStudent = {
+    id: students.length + 1,
+    name: req.body.name,
+    course: req.body.course
+  };
+  students.push(newStudent);
+  res.status(201).json(newStudent);
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
+pom.xml
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.demo</groupId>
+  <artifactId>karate-test-demo</artifactId>
+  <version>1.0</version>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.intuit.karate</groupId>
+      <artifactId>karate-junit5</artifactId>
+      <version>1.4.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+package.json
+{
+  "name": "karate-test-demo",
+  "version": "1.0.0",
+  "description": "Simple Node.js API for Karate Testing Experiment",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "karate",
+    "api",
+    "node",
+    "testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "directories": {
+    "test": "test"
+  }
+}
+api-test.feature
+Feature: Testing Student API using Karate
+
+  Background:
+    * url 'http://localhost:3000'
+
+  Scenario: Get all students
+    Given path 'students'
+    When method get
+    Then status 200
+    And match response[0].name == 'Lara'
+
+  Scenario: Get student by ID
+    Given path 'students', 2
+    When method get
+    Then status 200
+    And match response.course == 'Information Technology'
+
+  Scenario: Add new student
+    Given path 'students'
+    And request { name: 'Alex', course: 'Data Science' }
+    When method post
+    Then status 201
+    And match response.name == 'Alex'
+1.npm init -y
+npm install express
+node server.js
+mvn test
+http://localhost:3000/students for exp 11 only
+
+12th same as 10th theory diff
