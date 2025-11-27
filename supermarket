@@ -221,6 +221,7 @@ docker rm mynginx
 docker inspect mynginx
 docker ps -a
 docker export -o memcached.tar memcached
+
 7th
 create Myapp folder 
 create Docker file write below in docker file and save
